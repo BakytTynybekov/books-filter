@@ -9,6 +9,10 @@ export const selectBooks = (state) => state.books.list;
 export const selectFilteredBooks = (state, { search, type, sort }) => {
   console.log(state?.books.list, "state");
 
+  if (sort === "relevance" && type === "") {
+    return state.books.list.items;
+  }
+
   if (sort === "newest" && type === "") {
     return state?.books.list.items?.sort(
       (a, b) =>
