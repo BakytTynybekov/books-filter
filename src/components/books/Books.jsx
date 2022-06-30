@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Book from "./book/Book";
 import {
   selectSearch,
+  selectSort,
   selectType,
 } from "../../store/controls/controls-selectors";
 
@@ -20,8 +21,9 @@ function Books() {
   const bookName = useSelector(selectSearch);
   const type = useSelector(selectType);
   const search = useSelector(selectSearch);
+  const sort = useSelector(selectSort);
   const books = useSelector((state) =>
-    selectFilteredBooks(state, { search, type })
+    selectFilteredBooks(state, { search, type, sort })
   );
   console.log(books, "books", type);
   useEffect(() => {
@@ -30,7 +32,7 @@ function Books() {
     } else {
       dispatch(loadBooks());
     }
-  }, [bookName]);
+  }, [bookName, sort, type]);
 
   return (
     <main>

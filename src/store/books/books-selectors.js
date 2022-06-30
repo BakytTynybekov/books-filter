@@ -6,13 +6,38 @@ export const selectBooksInfo = (state) => ({
 
 export const selectBooks = (state) => state.books.list;
 
-export const selectFilteredBooks = (state, { search, type }) => {
+export const selectFilteredBooks = (state, { search, type, sort }) => {
   console.log(state?.books.list, "state");
-  return state?.books.list.items?.filter((book) => {
-    if (type === "") {
-      return book;
-    } else if (type !== "" && book.volumeInfo.categories?.includes(type)) {
-      return book;
-    }
-  });
+
+  if (sort === "newest" && type === "") {
+    return state?.books.list.items?.sort(
+      (a, b) =>
+        new Date(b.volumeInfo.publishedDate) -
+        new Date(a.volumeInfo.publishedDate)
+    );
+  }
+
+  if (sort === "relevance" && type !== "") {
+    return state?.books.list.items?.filter((book) => {
+      if (type === "") {
+        return book;
+      } else if (type !== "" && book.volumeInfo.categories?.includes(type)) {
+        return book;
+      }
+    });
+  } else if (sort === "newest" && type !== "") {
+    state?.books.list.items?.sort(
+      (a, b) =>
+        new Date(b.volumeInfo.publishedDate) -
+        new Date(a.volumeInfo.publishedDate)
+    );
+
+    return state?.books.list.items?.filter((book) => {
+      if (type === "") {
+        return book;
+      } else if (type !== "" && book.volumeInfo.categories?.includes(type)) {
+        return book;
+      }
+    });
+  }
 };

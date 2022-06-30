@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearch, setType } from "../../store/controls/controls-actions";
+import {
+  setSearch,
+  setSort,
+  setType,
+} from "../../store/controls/controls-actions";
 import {
   selectSearch,
+  selectSort,
   selectType,
 } from "../../store/controls/controls-selectors";
 function Filter() {
@@ -15,6 +20,7 @@ function Filter() {
   const dispatch = useDispatch();
   const search = useSelector(selectSearch);
   const type = useSelector(selectType);
+  const sort = useSelector(selectSort);
 
   const options = [
     { value: "", label: "all" },
@@ -45,6 +51,10 @@ function Filter() {
     dispatch(setType(e.target.value));
   };
 
+  const handleChangeSort = (e) => {
+    dispatch(setSort(e.target.value));
+  };
+
   return (
     <div onSubmit={(e) => handleSubmit(e)}>
       <h1>SEarch the book</h1>
@@ -72,13 +82,8 @@ function Filter() {
         <select
           name=""
           id=""
-          value={book.sort}
-          onChange={(e) =>
-            setBook({
-              ...book,
-              sort: e.target.value,
-            })
-          }
+          value={sort}
+          onChange={(e) => handleChangeSort(e)}
         >
           <option value="relevance" label="relevance">
             Relevance

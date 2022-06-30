@@ -1,4 +1,4 @@
-import { SET_TYPE, SET_SEARCH } from "./controls-actions";
+import { SET_TYPE, SET_SEARCH, SET_SORT } from "./controls-actions";
 
 const initialState = {
   search: "",
@@ -17,6 +17,11 @@ export const controlsReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         type: payload,
+      };
+    case SET_SORT:
+      return {
+        ...state,
+        sort: payload,
       };
     default:
       return state;
